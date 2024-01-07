@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""""""
+"""endpoint will be to return the status of your API"""
 from flask import Flask, Blueprint
 from models import storage
 import os
