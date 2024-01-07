@@ -54,12 +54,16 @@ class DBStorage:
     
     def get(self, cls, id):
         """retrieve one object based on it id and class"""
-        obj = self.__session.query(cls).get(id)
-        return obj
-    
+        if cls and id:
+            obj_id = f"{cls.__name__}.{id}"
+            objs = DBStorage.all(self, cls)
+            return objs.get(obj_id, None)
+        return None
+
     def count(self, cls=None):
         """count the number of object in storage"""
-        return len(self.all(cls))
+        objs = DBStorage.all(self, cls) if cls else DBStorage.all(self)
+        return len(objs)
             
     def new(self, obj):
         """add the object to the current database session"""
