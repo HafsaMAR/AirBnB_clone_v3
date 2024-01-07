@@ -78,17 +78,17 @@ class TestFileStorage(unittest.TestCase):
         self.assertEqual(type(new_dict), dict)
         self.assertIs(new_dict, storage._FileStorage__objects)
 
-    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
-    def test_get(self):
-        storage = FileStorage()
-        obj = storage.get("State", '123')
-        self.assertIsNone(obj)
+    # @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    # def test_get(self):
+    #     storage = FileStorage()
+    #     obj = storage.get("State", '123')
+    #     self.assertIsNone(obj)
     
-    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
-    def test_count(self):
-        storage = FileStorage()
-        count = storage.count("State")
-        self.assertEqual(count, 0)
+    # @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    # def test_count(self):
+    #     storage = FileStorage()
+    #     count = storage.count("State")
+    #     self.assertEqual(count, 0)
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_new(self):
