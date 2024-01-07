@@ -56,8 +56,7 @@ class DBStorage:
         """retrieve one object based on it id and class"""
         obj = self.__session.query(cls).get(id)
         return obj
-
-
+    
     def count(self, cls=None):
         """count the number of object in storage"""
         if cls is None:
@@ -66,8 +65,7 @@ class DBStorage:
                 count += self.__session.query(clss).count()
         else:
             count = self.__session.query(cls).count()
-
-
+            
     def new(self, obj):
         """add the object to the current database session"""
         self.__session.add(obj)
