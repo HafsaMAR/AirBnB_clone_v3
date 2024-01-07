@@ -24,3 +24,4 @@ def get_stats():
         "state": storage.count(State),
         "users": storage.count(User)
         }
+    return stats
