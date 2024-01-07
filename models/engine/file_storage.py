@@ -36,14 +36,14 @@ class FileStorage:
     
     def count(self, cls=None):
         """count the number of object in storage"""
-        objs = DBStorage.all(self, cls) if cls else DBStorage.all(self)
+        objs = FileStorage.all(self, cls) if cls else FileStorage.all(self)
         return len(objs)
     
     def get(self, cls, id):
         """retrieve one object based on it id and class"""
         if cls and id:
             obj_id = f"{cls.__name__}.{id}"
-            objs = Fil.all(self, cls)
+            objs = FileStorage.all(self, cls)
             return objs.get(obj_id, None)
         return None
 
