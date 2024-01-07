@@ -24,6 +24,7 @@ classes = {"Amenity": Amenity, "City": City, "Place": Place,
 
 STORAGE_TYPE = environ.get('HBNB_TYPE_STORAGE')
 
+
 class TestDBStorageDocs(unittest.TestCase):
     """Tests to check the documentation and style of DBStorage class"""
     @classmethod
@@ -87,6 +88,7 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
 
 @unittest.skipIf(STORAGE_TYPE != 'db', 'skip if environ is not db')
 class TestCountGet(unittest.TestCase):
