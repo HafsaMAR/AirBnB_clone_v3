@@ -34,19 +34,18 @@ class FileStorage:
             return new_dict
         return self.__objects
     
-    def get(self, cls, id):
-        """retrives one object based on it id and class"""
-        key = cls + '.' + id
-        return self.__objects.get(key)
-    
     def count(self, cls=None):
         """count the number of object in storage"""
-        if cls is None:
-            count = len(self.__objects)
-        else:
-            count = sum(1 for key in self.__objects if key.startswitch(cls))
-        
-        return count
+        objs = FileStorage.all(self, cls) if cls else FileStorage.all(self)
+        return len(objs)
+    
+    def get(self, cls, id):
+        """retrieve one object based on it id and class"""
+        if cls and id:
+            obj_id = f"{cls.__name__}.{id}"
+            objs = FileStorage.all(self, cls)
+            return objs.get(obj_id, None)
+        return None
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
