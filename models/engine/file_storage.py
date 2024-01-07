@@ -33,6 +33,20 @@ class FileStorage:
                     new_dict[key] = value
             return new_dict
         return self.__objects
+    
+    def get(self, cls, id):
+        """retrives one object based on it id and class"""
+        key = cls + '.' + id
+        return self.__objects.get(key)
+    
+    def count(self, cls=None):
+        """count the number of object in storage"""
+        if cls is None:
+            count = len(self.__objects)
+        else:
+            count = sum(1 for key in self.__objects if key.startswitch(cls))
+        
+        return count
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
@@ -52,9 +66,9 @@ class FileStorage:
         """deserializes the JSON file to __objects"""
         try:
             with open(self.__file_path, 'r') as f:
-                jo = json.load(f)
-            for key in jo:
-                self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
+                j_obj = json.load(f)
+            for key in j_obj:
+                self.__objects[key] = classes[j_obj[key]["__class__"]](**j_obj[key])
         except:
             pass
 
