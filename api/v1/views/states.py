@@ -1,11 +1,11 @@
 #!/usr/bin/python3
-"""create a view for the state object that handles all default RESTFull API actions"""
+"""create a view for the state object that handles
+all default RESTFull API actions"""
 
 from flask import Flask, request, jsonify, abort
 from models import storage
 from api.v1.views import app_views
 from models.state import State
-
 
 
 @app_views.route('/states', strict_slashes=False, methods=['GET'])
@@ -18,14 +18,16 @@ def get_states(state_id=None):
         for value in all_obj:
             state_dict.append(value.to_dict())
         return jsonify(state_dict)
-    
+
     else:
         states = storage.get(State, state_id)
         if states is None:
             abort(404)
         return jsonify(states.to_dict())
 
-@app_views.route("/states/<state_id>", strict_slashes=False, methods=["DELETE"])
+
+@app_views.route("/states/<state_id>", strict_slashes=False,
+                 methods=["DELETE"])
 def states_delete(state_id):
     "delete the state based state_id"
     state_obj = storage.get(State, state_id)
@@ -34,6 +36,7 @@ def states_delete(state_id):
     storage.delete(state_obj)
     storage.save()
     return jsonify({}), 200
+
 
 @app_views.route("/states", strict_slashes=False, methods=['POST'])
 def state_post():
@@ -58,11 +61,10 @@ def state_update(state_id):
     state_obj = storage.get(State, state_id)
     if state_obj is None:
         abort(404)
-    
+
     data = request.get_json(force=True, silent=True)
     if not data:
         abort(400, "Not a JSON")
     state_obj.name = data.get("name", state_obj.name)
     state_obj.save()
     return jsonify(state_obj.to_dict()), 200
-    
