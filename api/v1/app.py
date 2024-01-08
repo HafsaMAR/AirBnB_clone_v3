@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """endpoint will be to return the status of your API"""
-from flask import Flask, Blueprint
+from flask import Flask, Blueprint, jsonify
 from models import storage
 from api.v1.views import app_views
 
@@ -10,6 +10,13 @@ app.register_blueprint(app_views, url_prefix='/api/v1')
 @app.teardown_appcontext
 def close_storage(exception):
     storage.close()
+
+
+@app.errorhandler(404)
+def handle_404_error(error):
+    response = jsonify({"error": "Not found"})
+    response.status_code = 404
+    return response
 
 
 if __name__ == '__main__':
