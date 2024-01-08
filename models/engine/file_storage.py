@@ -33,12 +33,12 @@ class FileStorage:
                     new_dict[key] = value
             return new_dict
         return self.__objects
-    
+
     def count(self, cls=None):
         """count the number of object in storage"""
         objs = FileStorage.all(self, cls) if cls else FileStorage.all(self)
         return len(objs)
-    
+
     def get(self, cls, id):
         """retrieve one object based on it id and class"""
         if cls and id:
@@ -67,7 +67,8 @@ class FileStorage:
             with open(self.__file_path, 'r') as f:
                 j_obj = json.load(f)
             for key in j_obj:
-                self.__objects[key] = classes[j_obj[key]["__class__"]](**j_obj[key])
+                self.__objects[key] = classes[j_obj[key]
+                                              ["__class__"]](**j_obj[key])
         except:
             pass
 
