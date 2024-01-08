@@ -12,24 +12,16 @@ from models.amenity import Amenity
 
 @app_views.route('/status', strict_slashes=False, methods=["GET"])
 def status():
-    return {
-        "status": "OK",
-    }
+    return ('status="OK"')
 
-
-@app_views.route("/stats", strict_slashes=False)
-def stats():
-    amenities = storage.count(Amenity)
-    cities = storage.count(City)
-    places = storage.count(Place)
-    reviews = storage.count(Review)
-    states = storage.count(State)
-    users = storage.count(User)
-    return {
-        "amenities": amenities,
-        "cities": cities,
-        "places": places,
-        "reviews": reviews,
-        "states": states,
-        "users": users,
-    }
+@app_views.route('/stats', strict_slashes=False, methods=["GET"])
+def get_stats():
+    stats = {
+        "Amenities": storage.count(Amenity),
+        "cities": storage.count(City),
+        "places": storage.count(Place),
+        "reviews": storage.count(Review),
+        "state": storage.count(State),
+        "users": storage.count(User)
+        }
+    return stats
