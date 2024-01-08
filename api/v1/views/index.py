@@ -25,5 +25,5 @@ def get_stats():
         "reviews": storage.count(Review),
         "state": storage.count(State),
         "users": storage.count(User)
-        }
+    }
     return stats
