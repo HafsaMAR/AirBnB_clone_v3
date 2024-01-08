@@ -83,7 +83,7 @@ class TestFileStorage(unittest.TestCase):
     #     storage = FileStorage()
     #     obj = storage.get("State", '123')
     #     self.assertIsNone(obj)
-    
+
     # @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     # def test_count(self):
     #     storage = FileStorage()
