@@ -4,24 +4,26 @@
 
 from flask import request, abort, jsonify
 from models import storage
+from api.v1.views import app_views
 from models.state import State
 from models.city import City
-from api.v1.views import app_views
 
 @app_views.route('/states/<state_id>/cities', strict_slashes=False, methods=['GET'])
-def city_get(state_id=None):
+def city_state_get(state_id):
     """Displays cities or city using its id"""
     city_dict = []
     state = storage.get(State, state_id)
     if state is None:
-        all_cities = state.cities
-        for cities in all_cities:
-            city_dict.append(cities.to_dict())
-        return jsonify(city_dict)
+        abort(404)
+    
+    all_cities = state.cities
+    for cities in all_cities:
+        city_dict.append(cities.to_dict())
+    return jsonify(city_dict)
 
 
 
-@app_views.route("cities/<city_id>", strict_slashes=False, methods=['GET'])
+@app_views.route("/cities/<city_id>", strict_slashes=False, methods=['GET'])
 def city_get(city_id):
     """Displays cities or city using its id"""
     cities = storage.get(City, city_id)
@@ -42,15 +44,18 @@ def city_delete(city_id):
 
 
 @app_views.route("/states/<state_id>/cities", strict_slashes=False, methods=['POST'])
-def city_post():
+def city_post(state_id):
     """creates a new city and handle error request"""
-    city_data = request.get_json()
-    if city_data is None:
+    state = storage.get(State, state_id)
+    if state is None:
+        abort(404)
+    city_data = request.get_json(force=True, silent=True)
+    if not city_data:
         abort(400, "Not a JSON")
     name_city = city_data.get("name")
     if name_city is None:
         abort(400, 'Missing name')
-    new_city = City(**city_data)
+    new_city = City(state_id=state.id, **city_data)
     new_city.save()
     return jsonify(new_city.to_dict()), 201
 
