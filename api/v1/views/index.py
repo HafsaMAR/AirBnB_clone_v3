@@ -10,11 +10,9 @@ from models.state import State
 from models.user import User
 from models.amenity import Amenity
 
-
 @app_views.route('/status', strict_slashes=False, methods=["GET"])
 def status():
-    return ('status="OK"')
-
+    return jsonify(status="OK")
 
 @app_views.route('/stats', strict_slashes=False, methods=["GET"])
 def get_stats():
@@ -25,5 +23,5 @@ def get_stats():
         "reviews": storage.count(Review),
         "state": storage.count(State),
         "users": storage.count(User)
-    }
+        }
     return stats
