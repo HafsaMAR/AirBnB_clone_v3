@@ -2,6 +2,7 @@
 """endpoint will be to return the status of your API"""
 from flask import Flask, jsonify
 from models import storage
+import os
 from api.v1.views import app_views
 
 app = Flask('__name__')
@@ -20,9 +21,15 @@ def handle_404_error(error):
     response.status_code = 404
     return response
 
+if os.getenv("HBNB_API_HOST"):
+    host = os.getenv("HBNB_API_HOST")
+else:
+    host = "0.0.0.0"
+
+if os.getenv("HBNB_API_PORT"):
+    port = int(os.getenv("HBNB_API_PORT"))
+else:
+    port = 5000
 
 if __name__ == '__main__':
-    import os
-    host = os.getenv("HBNB_API_HOST", '0.0.0.0')
-    port = int(os.getenv("HBNB_API_PORT", 5000))
     app.run(host=host, port=port, threaded=True)
