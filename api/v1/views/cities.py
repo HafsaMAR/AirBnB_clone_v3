@@ -4,25 +4,30 @@
 
 from flask import request, abort, jsonify
 from models import storage
+from models.state import State
 from models.city import City
 from api.v1.views import app_views
 
 @app_views.route('/states/<state_id>/cities', strict_slashes=False, methods=['GET'])
-@app_views.route("cities/<city_id>", strict_slashes=False, methods=['GET'])
-def city_get(city_id=None):
+def city_get(state_id=None):
     """Displays cities or city using its id"""
     city_dict = []
-    if city_id is None:
-        all_cities = storage.all(City).values
+    state = storage.get(State, state_id)
+    if state is None:
+        all_cities = state.cities
         for cities in all_cities:
             city_dict.append(cities.to_dict())
         return jsonify(city_dict)
-    
-    else:
-        cities = storage.get(City, city_id)
-        if cities is None:
-            abort(404)
-        return jsonify(cities.to_dict())
+
+
+
+@app_views.route("cities/<city_id>", strict_slashes=False, methods=['GET'])
+def city_get(city_id):
+    """Displays cities or city using its id"""
+    cities = storage.get(City, city_id)
+    if cities is None:
+        abort(404)
+    return jsonify(cities.to_dict())
 
 
 @app_views.route("cities/<city_id>", strict_slashes=False, methods=['DELETE'])
