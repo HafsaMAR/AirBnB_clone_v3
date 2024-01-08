@@ -7,7 +7,7 @@ from api.v1.views import app_views
 
 
 
-@app_views.route('/states', strict_slashes=False, Methods=['GET'])
+@app_views.route('/states', strict_slashes=False, methods=['GET'])
 @app_views.route("states/<state_id>")
 def get_states(state_id=None):
     """Displays states or state with id"""
