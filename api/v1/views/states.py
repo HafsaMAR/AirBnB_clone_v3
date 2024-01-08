@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-""""""
+"""create a view for the state object that handles all default RESTFull API actions"""
+
 from flask import Flask, request, jsonify, abort
 from models import storage
 from models.state import State
@@ -8,7 +9,7 @@ from api.v1.views import app_views
 
 
 @app_views.route('/states', strict_slashes=False, methods=['GET'])
-@app_views.route("states/<state_id>")
+@app_views.route("states/<state_id>", strict_slashes=False, methods=['GET'])
 def get_states(state_id=None):
     """Displays states or state with id"""
     state_dict = []
@@ -41,11 +42,11 @@ def state_post():
     state_data = request.get_json()
     if not state_data:
         """raise error data is not JSON"""
-        raise ValueError("Not a JSON")
+        abort(400, "Not a JSON")
     name = state_data.get('name')
     if not name:
-        raise ValueError('Missing name')
-    new_state = State(*state_data)
+        abort(400, "Missing name")
+    new_state = State(**state_data)
     new_state.save()
     return jsonify(new_state.to_dict()), 201
 
