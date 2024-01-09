@@ -1,6 +1,9 @@
 #!/usr/bin/python3
-"""create a view for the state object that handles
-all default RESTFull API actions"""
+"""
+create a view for the state object that handles
+all default RESTFull API actions
+
+"""
 
 from flask import Flask, request, jsonify, abort
 from models import storage

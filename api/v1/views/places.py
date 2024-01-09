@@ -1,7 +1,10 @@
 #!/usr/bin/python3
 
-"""create a view for the places objects that handles
-all default RESTful API actions"""
+"""
+create a view for the places objects that handles
+all default RESTful API actions
+
+"""
 
 from flask import request, abort, jsonify
 from models import storage

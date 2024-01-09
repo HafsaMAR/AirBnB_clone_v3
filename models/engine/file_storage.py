@@ -42,7 +42,7 @@ class FileStorage:
     def get(self, cls, id):
         """retrieve one object based on it id and class"""
         if cls and id:
-            obj_id = f"{cls.__name__}.{id}"
+            obj_id = "{}.{}".format(cls.__name__, id)
             objs = FileStorage.all(self, cls)
             return objs.get(obj_id, None)
         return None

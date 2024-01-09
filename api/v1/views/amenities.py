@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-""" Amenities view that handles all default RESTful API actions"""
+"""
+Amenities view that handles all default RESTful API actions
+
+"""
 
 from models import storage
 from models import amenity

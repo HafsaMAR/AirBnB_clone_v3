@@ -1,5 +1,9 @@
 #!/usr/bin/python3
-"""Define routes of blueprint"""
+"""
+
+Define routes of blueprint
+
+"""
 from flask import Flask, jsonify
 from api.v1.views import app_views
 from models import storage
