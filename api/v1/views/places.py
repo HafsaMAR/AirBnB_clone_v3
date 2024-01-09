@@ -67,3 +67,26 @@ def place_post(city_id):
     new_place = Place(city_id=city_obj.id, **place_data)
     new_place.save()
     return jsonify(new_place.to_dict()), 201
+
+
+@app_views.route("/places/<place_id>", strict_slashes=False, methods=["PUT"])
+def update_place(place_id):
+    """update place object using id"""
+    place = storage.get(Place, place_id)
+    if place is None:
+        abort(404)
+    place_data = request.get_json(force=True, silent=True)
+    if not place_data:
+        abort(400, "Not a JSON")
+    place.name = place_data.get("name", place.name)
+    place.description = place_data.get("description", place.description)
+    place.number_rooms = place_data.get("number_rooms", place.number_rooms)
+    place.number_bathrooms = place_data.get("number_bathrooms",
+                                            place.number_bathrooms)
+    place.max_guest = place_data.get("max_guest", place.max_guest)
+    place.price_by_night = place_data.get("price_by_night",
+                                          place.price_by_night)
+    place.latitude = place_data.get("latitude", place.latitude)
+    place.longitude = place_data.get("longitude", place.longitude)
+    place.save()
+    return jsonify(place.to_dict()), 200
