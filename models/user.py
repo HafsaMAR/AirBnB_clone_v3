@@ -32,16 +32,16 @@ class User(BaseModel, Base):
 
     
     @property
-    def password(self):
-        """Getter for the password"""
-        return self.password
+    def password_hash(self):
+        """Getter for the password hash"""
+        return self.__password_hash
     
-    @property.setter
-    def password(self, value):
-        """Setter for password"""
+    @password_hash.setter
+    def password_hash(self, value):
+        """Setter for the password hash"""
         if value:
-            self.password = hashlib.md5(value.encode()).hexdigest()
-    
+            self.__password_hash = hashlib.md5(value.encode()).hexdigest()
+                
     def to_dict(self, **kwargs):
         """Return a dictionary representation of the user instance"""
         if models.storage_t == 'db' or 'password' in kwargs:
@@ -49,5 +49,5 @@ class User(BaseModel, Base):
         else:
             dict_copy = super().to_dict(**kwargs)
             dict_copy.pop('password', None)
-            dict_copy['hashed_password'] = self.password
+            dict_copy['hashed_password'] = self.password_hash
         return dict_copy
