@@ -6,6 +6,7 @@ from os import getenv
 import sqlalchemy
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
+import hashlib
 
 
 class User(BaseModel, Base):
@@ -13,7 +14,7 @@ class User(BaseModel, Base):
     if models.storage_t == 'db':
         __tablename__ = 'users'
         email = Column(String(128), nullable=False)
-        password = Column(String(128), nullable=False)
+        hashed_password = Column(String(128), nullable=False)
         first_name = Column(String(128), nullable=True)
         last_name = Column(String(128), nullable=True)
         places = relationship("Place", backref="user")
@@ -27,3 +28,26 @@ class User(BaseModel, Base):
     def __init__(self, *args, **kwargs):
         """initializes user"""
         super().__init__(*args, **kwargs)
+        self.password = ''
+
+    
+    @property
+    def password(self):
+        """Getter for the password"""
+        return self.password
+    
+    @property.setter
+    def password(self, value):
+        """Setter for password"""
+        if value:
+            self.password = hashlib.md5(value.encode()).hexdigest()
+    
+    def to_dict(self, **kwargs):
+        """Return a dictionary representation of the user instance"""
+        if models.storage_t == 'db' or 'password' in kwargs:
+            return super().to_dict(**kwargs)
+        else:
+            dict_copy = super().to_dict(**kwargs)
+            dict_copy.pop('password', None)
+            dict_copy['hashed_password'] = self.password
+        return dict_copy
